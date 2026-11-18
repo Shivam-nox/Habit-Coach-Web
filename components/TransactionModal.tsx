@@ -42,10 +42,10 @@ const parseLocalDate = (dateStr: string) => {
 export default function TransactionModal({ visible, transaction, onClose, onUpdate, onDelete }: Props) {
   const [loadingType, setLoadingType] = useState<'update' | 'delete' | null>(null);
   const [amount, setAmount] = useState('');
-  
+
   // BUG FIX: Store the max date in state so it doesn't recreate every render!
   const [maxDate] = useState(() => new Date());
-  
+
   // Date states
   const [date, setDate] = useState('');
   const [dateValue, setDateValue] = useState(new Date());
@@ -65,13 +65,13 @@ export default function TransactionModal({ visible, transaction, onClose, onUpda
 
   const isIncome = transaction.type === 'income';
 
-const handleDateChange = (event: any, selectedDate?: Date) => {
+  const handleDateChange = (event: any, selectedDate?: Date) => {
     // 1. Save the newly selected date FIRST
     if (event.type === 'set' && selectedDate) {
       setDateValue(selectedDate);
       setDate(getLocalDateString(selectedDate));
     }
-    
+
     // 2. Hide the picker SECOND
     if (Platform.OS === 'android') {
       setShowPicker(false);
@@ -98,8 +98,8 @@ const handleDateChange = (event: any, selectedDate?: Date) => {
   const handleDelete = () => {
     Alert.alert('Delete Record', 'Are you sure you want to delete this transaction? This cannot be undone.', [
       { text: 'Cancel', style: 'cancel' },
-      { 
-        text: 'Delete', style: 'destructive', 
+      {
+        text: 'Delete', style: 'destructive',
         onPress: async () => {
           setLoadingType('delete');
           try {
@@ -111,7 +111,7 @@ const handleDateChange = (event: any, selectedDate?: Date) => {
           } finally {
             setLoadingType(null);
           }
-        } 
+        }
       }
     ]);
   };
@@ -150,8 +150,8 @@ const handleDateChange = (event: any, selectedDate?: Date) => {
 
           {/* Native Date Picker */}
           <Text style={styles.inputLabel}>Transaction Date</Text>
-          <TouchableOpacity 
-            style={[styles.inputWrap, { marginBottom: showPicker && Platform.OS === 'ios' ? 8 : 24 }]} 
+          <TouchableOpacity
+            style={[styles.inputWrap, { marginBottom: showPicker && Platform.OS === 'ios' ? 8 : 24 }]}
             onPress={() => setShowPicker(true)}
             activeOpacity={0.7}
           >
@@ -199,7 +199,7 @@ const handleDateChange = (event: any, selectedDate?: Date) => {
               )}
             </TouchableOpacity>
           </View>
-          
+
         </View>
       </View>
     </Modal>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   inputWrap: { flexDirection: 'row', alignItems: 'center', backgroundColor: C.surface, borderWidth: 1, borderColor: C.border, borderRadius: 14, paddingHorizontal: 16, height: 56, marginBottom: 16 },
   currencySymbol: { fontSize: 18, fontWeight: '600', color: C.subtext, marginRight: 8 },
   input: { flex: 1, fontSize: 18, fontWeight: '600', color: C.text, height: '100%' },
-  
+
   iosPickerContainer: { backgroundColor: C.surface, borderRadius: 14, marginBottom: 24, borderWidth: 1, borderColor: C.border, overflow: 'hidden' },
   iosDoneBtn: { backgroundColor: C.fill, paddingVertical: 12, alignItems: 'center', borderTopWidth: 1, borderColor: C.border },
   iosDoneText: { color: C.brand, fontWeight: '700', fontSize: 16 },

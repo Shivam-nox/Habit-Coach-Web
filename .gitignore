@@ -46,3 +46,8 @@ app-example
 *firebase-adminsdk*.json
 google-services.json
 dist/
+
+.env
+*firebase-adminsdk*.json
+google-services.json
+dist/

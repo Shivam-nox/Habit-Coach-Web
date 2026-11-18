@@ -205,87 +205,76 @@ export default function ChatScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
       >
-        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-          {/* Header */}
-          <View
-            style={styles.header}
-          >
-            <View style={styles.headerLeft}>
-              <View
-                style={styles.dot}
-              />
-              <Text style={styles.headerTitle}>Coach</Text>
-            </View>
-            <Text style={styles.headerSub}>Duo</Text>
+        {/* Header — always at top */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <View style={styles.dot} />
+            <Text style={styles.headerTitle}>Coach</Text>
           </View>
+          <Text style={styles.headerSub}>Duo</Text>
+        </View>
 
-          {/* Issue #8: Snapshot banner (shown after AI transaction actions) */}
-          {snapshot && <SnapshotBanner snapshot={snapshot} />}
+        {/* Issue #8: Snapshot banner */}
+        {snapshot && <SnapshotBanner snapshot={snapshot} />}
 
-          {/* Messages */}
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Bubble item={item} isUser={item.sender === 'user'} />}
-            contentContainerStyle={styles.list}
-            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
-            onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
-            ListFooterComponent={
-              isLoading ? <TypingIndicator /> : null
-            }
-            keyboardDismissMode="interactive"
-            showsVerticalScrollIndicator={false}
-          />
+        {/* Messages — fills remaining space */}
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <Bubble item={item} isUser={item.sender === 'user'} />}
+          contentContainerStyle={styles.list}
+          onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+          onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
+          ListFooterComponent={isLoading ? <TypingIndicator /> : null}
+          keyboardDismissMode="interactive"
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+        />
 
-          {/* Issue #18: Chips after every AI reply */}
-          {showChips && (
-            <View style={styles.suggestionsWrap}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
-              >
-                {SUGGESTION_CHIPS.map((chip, i) => (
-                  <Suggestion
-                    key={chip.title}
-                    title={chip.title}
-                    icon={chip.icon}
-                    onPress={sendMessage}
-                    delay={i * 60}
-                  />
-                ))}
-              </ScrollView>
-            </View>
-          )}
-
-          {/* Input */}
-          <View style={styles.inputOuter}>
-            <View
-              style={[styles.inputWrap, inputFocused && { borderColor: C.brand }]}
+        {/* Chips after every AI reply */}
+        {showChips && (
+          <View style={styles.suggestionsWrap}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
             >
-              <TextInput
-                style={styles.input}
-                placeholder="Message Duo…"
-                placeholderTextColor={C.muted}
-                value={input}
-                onChangeText={setInput}
-                multiline
-                editable={!isLoading}
-                onFocus={() => setInputFocused(true)}
-                onBlur={() => setInputFocused(false)}
-              />
-              <Pressable
-                onPress={() => sendMessage(input)}
-                disabled={!input.trim() || isLoading}
-              >
-                <View
-                  style={[styles.sendBtn, { opacity: !input.trim() || isLoading ? 0.3 : 1 }]}
-                >
-                  <Feather name="arrow-up" size={18} color={C.surface} />
-                </View>
-              </Pressable>
-            </View>
+              {SUGGESTION_CHIPS.map((chip, i) => (
+                <Suggestion
+                  key={chip.title}
+                  title={chip.title}
+                  icon={chip.icon}
+                  onPress={sendMessage}
+                  delay={i * 60}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
+        {/* Input */}
+        <View style={styles.inputOuter}>
+          <View style={[styles.inputWrap, inputFocused && { borderColor: C.brand }]}>
+            <TextInput
+              style={styles.input}
+              placeholder="Message Duo…"
+              placeholderTextColor={C.muted}
+              value={input}
+              onChangeText={setInput}
+              multiline
+              editable={!isLoading}
+              onFocus={() => setInputFocused(true)}
+              onBlur={() => setInputFocused(false)}
+            />
+            <Pressable
+              onPress={() => sendMessage(input)}
+              disabled={!input.trim() || isLoading}
+            >
+              <View style={[styles.sendBtn, { opacity: !input.trim() || isLoading ? 0.3 : 1 }]}>
+                <Feather name="arrow-up" size={18} color={C.surface} />
+              </View>
+            </Pressable>
           </View>
         </View>
       </KeyboardAvoidingView>

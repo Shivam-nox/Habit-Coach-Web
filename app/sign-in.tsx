@@ -20,7 +20,7 @@ const C = {
 
 export default function SignInScreen() {
   const api = useApi();
-  const { login, loginDemo } = useAuth();
+  const { login } = useAuth();
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
@@ -111,15 +111,6 @@ export default function SignInScreen() {
             {loading ? <ActivityIndicator color={C.white} size="small" /> : <Text style={styles.buttonText}>Sign in</Text>}
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.demoButton}
-            onPress={loginDemo}
-            disabled={loading}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.demoButtonText}>⚡ Try Live Demo (No Sign-Up)</Text>
-          </TouchableOpacity>
-
           <View style={styles.footer}>
             <Text style={styles.footerText}>Don't have an account? </Text>
             <Link href="/sign-up" asChild>
@@ -161,16 +152,6 @@ const styles = StyleSheet.create({
   button: { backgroundColor: C.text, paddingVertical: 16, borderRadius: 12, alignItems: 'center' },
   buttonDisabled: { opacity: 0.6 },
   buttonText: { color: C.white, fontSize: 15, fontWeight: '600' },
-  demoButton: {
-    marginTop: 12,
-    paddingVertical: 15,
-    borderRadius: 12,
-    alignItems: 'center',
-    backgroundColor: '#F0FDF4',
-    borderWidth: 1.5,
-    borderColor: C.brand,
-  },
-  demoButtonText: { color: C.brand, fontSize: 14, fontWeight: '700' },
   footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24 },
   footerText: { color: C.muted, fontSize: 14 },
   link: { color: C.brand, fontSize: 14, fontWeight: '700' },

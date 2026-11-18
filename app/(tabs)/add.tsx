@@ -486,8 +486,8 @@ const styles = StyleSheet.create({
     alignItems: 'center' 
   },
   iconBox: { 
-    width: width * 0.16, 
-    height: width * 0.16, 
+    width: 56, 
+    height: 56, 
     borderRadius: 16, 
     backgroundColor: COLORS.surface, 
     alignItems: 'center', 
